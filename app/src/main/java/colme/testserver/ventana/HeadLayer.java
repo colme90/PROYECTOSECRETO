@@ -3,6 +3,8 @@ package colme.testserver.ventana;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import colme.testserver.R;
@@ -61,10 +64,14 @@ public class HeadLayer extends View {
 
 
         ImageView iv_tar1 = (ImageView) v.findViewById(R.id.imageView_tarjeta1);
+        final TextView tv_tarjetaSeleccionada = (TextView) v.findViewById(R.id.textView_tarjetaSeleccionada);
+        final TextView tv_fechaCad = (TextView) v.findViewById(R.id.textView_fechaCad);
         iv_tar1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 tarjetaSeleccionada = 1;
+                tv_tarjetaSeleccionada.setText("4907 XXXX XXXX 0027");
+                tv_fechaCad.setText("12 / 17");
             }
         });
 
@@ -73,6 +80,8 @@ public class HeadLayer extends View {
             @Override
             public void onClick(View v) {
                 tarjetaSeleccionada = 2;
+                tv_tarjetaSeleccionada.setText("4900 XXXX XXXX 0000");
+                tv_fechaCad.setText("12 / 17");
             }
         });
 
@@ -81,6 +90,8 @@ public class HeadLayer extends View {
             @Override
             public void onClick(View v) {
                 tarjetaSeleccionada = 3;
+                tv_tarjetaSeleccionada.setText("4111 XXXX XXXX 1111");
+                tv_fechaCad.setText("12 / 17");
             }
         });
 
@@ -95,11 +106,8 @@ public class HeadLayer extends View {
                 if (tarjetaSeleccionada == -1){
                     Toast.makeText(mContext,"Es necesario seleccionar una tarjeta",Toast.LENGTH_SHORT).show();
                 }else {
-
-
                     SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
-
 
                     switch(tarjetaSeleccionada) {
                         case 1:
@@ -111,15 +119,15 @@ public class HeadLayer extends View {
                             break;
                         case 2:
                             editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
-                        "\t\"tarjeta\": \"49000000000000\",\n" +
-                        "\t\"cvv\": \"231\",\n" +
+                                    "\t\"tarjeta\": \"49000000000000\",\n" +
+                                    "\t\"cvv\": \"231\",\n" +
                         "\t\"fecha\": \"1712\"\n" +
                         "}");
                             break;
                         case 3:
                             editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
-                        "\t\"tarjeta\": \"41111111111111111\",\n" +
-                        "\t\"cvv\": \"231\",\n" +
+                                    "\t\"tarjeta\": \"41111111111111111\",\n" +
+                                    "\t\"cvv\": \"231\",\n" +
                         "\t\"fecha\": \"1712\"\n" +
                         "}");
                             break;
@@ -128,9 +136,6 @@ public class HeadLayer extends View {
                             Toast.makeText(mContext,"Se ha producido un error",Toast.LENGTH_SHORT).show();
                             break;
                     }
-
-
-
 
                     editor.commit();
 
@@ -148,75 +153,11 @@ public class HeadLayer extends View {
             }
         });
 
-
-//        Button bb2= (Button) v.findViewById(R.id.button2);
-//        bb2.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                System.out.println("Clicked----><<<<<<<");
-//                SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPref.edit();
-//                editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
-//                        "\t\"tarjeta\": \"49000000000000\",\n" +
-//                        "\t\"cvv\": \"231\",\n" +
-//                        "\t\"fecha\": \"1712\"\n" +
-//                        "}");
-//                editor.commit();
-//
-//                avalaible.release();
-//                destroy();
-//            }
-//        });
-//
-//        bb2.setOnTouchListener(new OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return false;
-//            }
-//        });
-//
-//
-//        Button bb3= (Button) v.findViewById(R.id.button3);
-//        bb3.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                System.out.println("Clicked----><<<<<<<");
-//                SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPref.edit();
-//                editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
-//                        "\t\"tarjeta\": \"41111111111111111\",\n" +
-//                        "\t\"cvv\": \"231\",\n" +
-//                        "\t\"fecha\": \"1712\"\n" +
-//                        "}");
-//                editor.commit();
-//
-//                avalaible.release();
-//                destroy();
-//            }
-//        });
-//
-//        bb3.setOnTouchListener(new OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return false;
-//            }
-//        });
-
-
-
-
-
-
-
-
-        mWindowManager.addView(v,params);
+        mWindowManager.addView(v, params);
     }
+
+
+
 
     /**
      * Removes the view from window manager.
@@ -224,4 +165,6 @@ public class HeadLayer extends View {
     public void destroy() {
         mWindowManager.removeView(v);
     }
+
+
 }
