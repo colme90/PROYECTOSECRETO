@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/logoRedsys" />
+            android:src="@drawable/logoredsys" />
 
         <ImageView
             android:id="@+id/imageView_carrito"
@@ -90,7 +90,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:text="PAGAR" />
+        android:text="PAGAR"
+        android:id="@+id/pagar" />
 
 
 </RelativeLayout>

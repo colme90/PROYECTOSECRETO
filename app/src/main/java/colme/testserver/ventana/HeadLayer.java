@@ -53,7 +53,7 @@ public class HeadLayer extends View {
         // Here is the place where you can inject whatever layout you want.
        View v =  layoutInflater.inflate(R.layout.head, mFrameLayout);
 
-        Button bb= (Button) v.findViewById(R.id.button);
+        Button bb= (Button) v.findViewById(R.id.pagar);
         bb.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -83,64 +83,64 @@ public class HeadLayer extends View {
         });
 
 
-        Button bb2= (Button) v.findViewById(R.id.button2);
-        bb2.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                System.out.println("Clicked----><<<<<<<");
-                SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
-                        "\t\"tarjeta\": \"49000000000000\",\n" +
-                        "\t\"cvv\": \"231\",\n" +
-                        "\t\"fecha\": \"1712\"\n" +
-                        "}");
-                editor.commit();
-
-                avalaible.release();
-                destroy();
-            }
-        });
-
-        bb2.setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-
-
-        Button bb3= (Button) v.findViewById(R.id.button3);
-        bb3.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                System.out.println("Clicked----><<<<<<<");
-                SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
-                        "\t\"tarjeta\": \"41111111111111111\",\n" +
-                        "\t\"cvv\": \"231\",\n" +
-                        "\t\"fecha\": \"1712\"\n" +
-                        "}");
-                editor.commit();
-
-                avalaible.release();
-                destroy();
-            }
-        });
-
-        bb3.setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
+//        Button bb2= (Button) v.findViewById(R.id.button2);
+//        bb2.setOnClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // TODO Auto-generated method stub
+//                System.out.println("Clicked----><<<<<<<");
+//                SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPref.edit();
+//                editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
+//                        "\t\"tarjeta\": \"49000000000000\",\n" +
+//                        "\t\"cvv\": \"231\",\n" +
+//                        "\t\"fecha\": \"1712\"\n" +
+//                        "}");
+//                editor.commit();
+//
+//                avalaible.release();
+//                destroy();
+//            }
+//        });
+//
+//        bb2.setOnTouchListener(new OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return false;
+//            }
+//        });
+//
+//
+//        Button bb3= (Button) v.findViewById(R.id.button3);
+//        bb3.setOnClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // TODO Auto-generated method stub
+//                System.out.println("Clicked----><<<<<<<");
+//                SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPref.edit();
+//                editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
+//                        "\t\"tarjeta\": \"41111111111111111\",\n" +
+//                        "\t\"cvv\": \"231\",\n" +
+//                        "\t\"fecha\": \"1712\"\n" +
+//                        "}");
+//                editor.commit();
+//
+//                avalaible.release();
+//                destroy();
+//            }
+//        });
+//
+//        bb3.setOnTouchListener(new OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return false;
+//            }
+//        });
 
 
 
