@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:padding="15dp"
     android:layout_height="wrap_content"
     android:background="#ffffff"
     android:orientation="vertical">
@@ -8,8 +9,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayout_cabecera"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -41,8 +41,8 @@
         android:id="@+id/textView_seleccionaTarjeta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/relativeLayout_cabecera"
-        android:layout_margin="10dp"
         android:text="Selecciona la tarjeta para realizar el pago"
         android:textColor="#000000"
         android:textSize="20sp" />
@@ -51,15 +51,14 @@
     <ScrollView
         android:id="@+id/scrollView_tarjetas"
         android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView_seleccionaTarjeta"
-  android:layout_centerHorizontal="true"
-        android:layout_margin="10dp">
+  android:layout_centerHorizontal="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
 
             <ImageView
@@ -86,19 +85,68 @@
                 android:src="@drawable/tar3"
                 android:padding="5dp" />
 
-
         </LinearLayout>
-
 
     </ScrollView>
 
-    <Button
+    <RelativeLayout
+        android:id="@+id/relativeLayout_tarjetaSeleccionada"
         android:layout_below="@+id/scrollView_tarjetas"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView_tarjetaSeleccionadaTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="Tarjeta:"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:id="@+id/textView_tarjetaSeleccionada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textView_tarjetaSeleccionadaTitulo"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/textView_fechaCadTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_tarjetaSeleccionadaTitulo"
+            android:layout_marginRight="10dp"
+            android:text="Fecha caducidad:"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:id="@+id/textView_fechaCad"
+            android:layout_below="@+id/textView_tarjetaSeleccionadaTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textView_fechaCadTitulo"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/relativeLayout_tarjetaSeleccionada"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:text="PAGAR"
         android:id="@+id/pagar" />
-
 
 </RelativeLayout>

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="background_pressed">#FFFF00</color> <!--yellow-->
+    <color name="background_pressed">#FCD7A6</color> <!--yellow-->
     <color name="background_normal">#808000</color>    <!--olive-->
     <color name="background_focused">#0000FF</color>    <!--blue-->
 </resources>
