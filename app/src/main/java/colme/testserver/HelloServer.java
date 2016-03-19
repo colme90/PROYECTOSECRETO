@@ -33,32 +33,28 @@ package colme.testserver;
  * #L%
  */
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
-import android.widget.Button;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
 import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
 
+import colme.testserver.Util.SemaforoUtil;
+import colme.testserver.fingerprint.FingerprintAuthenticationDialog;
 import colme.testserver.ventana.HeadLayer;
-import fi.iki.elonen.NanoHTTPD;
 
 /**
  * An example of subclassing NanoHTTPD to make a custom HTTP server.
@@ -67,16 +63,22 @@ public class HelloServer extends NanoCustom {
     public Context getContext() {
         return context;
     }
+
     private HeadLayer mHeadLayer;
+
     public void setContext(Context context) {
         this.context = context;
     }
-    private final Semaphore available = new Semaphore(1, true);
 
     Context context = null;
 
     private static final Logger LOG = Logger.getLogger(HelloServer.class.getName());
+    private static final String DIALOG_FRAGMENT_TAG = "myFragment";
+    private static final String SECRET_MESSAGE = "Very secret message";
+    /** Alias for our key in the Android Key Store */
+    private static final String KEY_NAME = "my_key";
 
+    FingerprintAuthenticationDialog mFragment;
 
 
     public HelloServer() {
@@ -123,40 +125,66 @@ public class HelloServer extends NanoCustom {
     }
 
 
-
     @Override
     public Response serve(IHTTPSession session) {
         Method method = session.getMethod();
         String uri = session.getUri();
+        String msg = "";
         HelloServer.LOG.info(method + " '" + uri + "' ");
-        openSelector(this.getContext(), available);
+        if (uri.equals("/")) {
+            openFingerprint(this.getContext());
+            openSelector(this.getContext());
 //        mHeadLayer = new HeadLayer(this.getContext());
-        try {
-            available.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                SemaforoUtil.LOCK.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+            String tarjeta = sharedPref.getString(context.getString(R.string.tarjeta), "");
+            msg = "var JQUERY4U = JQUERY4U || {};\n" +
+                    "\n" +
+                    "JQUERY4U.SETTINGS = \n" + tarjeta;
+            ;
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(context.getString(R.string.tarjeta), "");
+            editor.commit();
+            Response res = newFixedLengthResponse(msg);
+            res.setMimeType("application/json");
+            SemaforoUtil.LOCK.release();
         }
-
-        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-
-        String tarjeta = sharedPref.getString(context.getString(R.string.tarjeta),"");
-        String msg = "var JQUERY4U = JQUERY4U || {};\n" +
-                "\n" +
-                "JQUERY4U.SETTINGS = \n" + tarjeta;
-                ;
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(context.getString(R.string.tarjeta),"");
-        editor.commit();
-        Response res = newFixedLengthResponse(msg);
-        res.setMimeType("application/json");
-        available.release();
         return newFixedLengthResponse(msg);
     }
 
-    public void openSelector(final Context context,final Semaphore available)
-    {
+    @TargetApi(Build.VERSION_CODES.M)
+    public void openFingerprint(final Context context) {
+            LOG.info("empezando autenticación");
+            try {
+                SemaforoUtil.LOCK.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+//                            mFragment = new FingerprintAuthenticationDialog(context);
+                            Intent intent = new Intent (context, AskActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+                    }
+            );
+
+    }
+
+
+    public void openSelector(final Context context) {
         try {
-            available.acquire();
+            SemaforoUtil.LOCK.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -165,12 +193,15 @@ public class HelloServer extends NanoCustom {
                 new Runnable() {
                     @Override
                     public void run() {
-                        mHeadLayer = new HeadLayer(context,available);
+                        mHeadLayer = new HeadLayer(context);
 
                     }
                 }
         );
     }
+
+
+
 
 
 }

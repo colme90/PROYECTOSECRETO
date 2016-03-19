@@ -3,7 +3,6 @@ package colme.testserver.ventana;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,9 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.concurrent.Semaphore;
-
 import colme.testserver.R;
+import colme.testserver.Util.SemaforoUtil;
 
 /**
  * Creates the head layer view which is displayed directly on window manager.
@@ -28,15 +26,15 @@ public class HeadLayer extends View {
     private FrameLayout mFrameLayout;
     private WindowManager mWindowManager;
     private View v;
-    private Semaphore avalaible;
+
 
 
     private int tarjetaSeleccionada = -1;
 
 
-    public HeadLayer(Context context, Semaphore avalaible) {
+    public HeadLayer(Context context) {
         super(context);
-        this.avalaible = avalaible;
+
         mContext = context;
         mFrameLayout = new FrameLayout(mContext);
 
@@ -136,7 +134,7 @@ public class HeadLayer extends View {
 
                     editor.commit();
 
-                    avalaible.release();
+                    SemaforoUtil.LOCK.release();
                     destroy();
                 }
             }

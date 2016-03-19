@@ -4,8 +4,6 @@ package colme.testserver;
  * Created by colme on 18/03/2016.
  */
 
-import android.util.Base64;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

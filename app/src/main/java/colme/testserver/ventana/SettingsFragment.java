@@ -1,7 +1,6 @@
 package colme.testserver.ventana;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;

@@ -7,4 +7,7 @@
     <color name="background_pressed">#FFFF00</color> <!--yellow-->
     <color name="background_normal">#808000</color>    <!--olive-->
     <color name="background_focused">#0000FF</color>    <!--blue-->
+    <color name="warning_color">#f4511e</color>
+    <color name="hint_color">#42000000</color>
+    <color name="success_color">#009688</color>
 </resources>

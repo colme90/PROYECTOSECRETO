@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "colme.testserver"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -25,6 +25,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
     compile 'org.nanohttpd:nanohttpd:2.3.0'
-
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }
