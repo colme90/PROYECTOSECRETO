@@ -1,31 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ffffff">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
+    <RelativeLayout
+        android:id="@+id/relativeLayout_cabecera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logoRedsys" />
+
+        <ImageView
+            android:id="@+id/imageView_carrito"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView_importe"
+            android:src="@drawable/carrito" />
+
+        <TextView
+            android:id="@+id/textView_importe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="1.45 €"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView_seleccionaTarjeta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout_cabecera"
+        android:layout_margin="10dp"
+        android:text="Selecciona la tarjeta para realizar el pago"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/tar1" />
+        android:layout_below="@+id/textView_seleccionaTarjeta"
+  android:layout_centerHorizontal="true"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:background="@drawable/tar1"
+                android:padding="5dp" />
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:background="@drawable/tar2"
+                android:padding="10dp" />
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:background="@drawable/tar3"
+                android:padding="5dp" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/tar2" />
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:text="PAGAR" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/tar3" />
-</LinearLayout>
+
+</RelativeLayout>
