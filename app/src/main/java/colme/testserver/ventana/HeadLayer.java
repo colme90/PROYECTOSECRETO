@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.concurrent.Semaphore;
 
@@ -27,6 +29,11 @@ public class HeadLayer extends View {
     private WindowManager mWindowManager;
     private View v;
     private Semaphore avalaible;
+
+
+    private int tarjetaSeleccionada = -1;
+
+
     public HeadLayer(Context context, Semaphore avalaible) {
         super(context);
         this.avalaible = avalaible;
@@ -54,24 +61,84 @@ public class HeadLayer extends View {
         // Here is the place where you can inject whatever layout you want.
        v =  layoutInflater.inflate(R.layout.head, mFrameLayout);
 
+
+        ImageView iv_tar1 = (ImageView) v.findViewById(R.id.imageView_tarjeta1);
+        iv_tar1.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tarjetaSeleccionada = 1;
+            }
+        });
+
+        ImageView iv_tar2 = (ImageView) v.findViewById(R.id.imageView_tarjeta2);
+        iv_tar2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tarjetaSeleccionada = 2;
+            }
+        });
+
+        ImageView iv_tar3 = (ImageView) v.findViewById(R.id.imageView_tarjeta3);
+        iv_tar3.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tarjetaSeleccionada = 3;
+            }
+        });
+
+
         Button bb= (Button) v.findViewById(R.id.pagar);
         bb.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 System.out.println("Clicked----><<<<<<<");
-                SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
-                        "\t\"tarjeta\": \"4907171010100027\",\n" +
+
+                if (tarjetaSeleccionada == -1){
+                    Toast.makeText(mContext,"Es necesario seleccionar una tarjeta",Toast.LENGTH_SHORT).show();
+                }else {
+
+
+                    SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+
+
+                    switch(tarjetaSeleccionada) {
+                        case 1:
+                            editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
+                                    "\t\"tarjeta\": \"4907171010100027\",\n" +
+                                    "\t\"cvv\": \"231\",\n" +
+                                    "\t\"fecha\": \"1712\"\n" +
+                                    "}");
+                            break;
+                        case 2:
+                            editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
+                        "\t\"tarjeta\": \"49000000000000\",\n" +
                         "\t\"cvv\": \"231\",\n" +
                         "\t\"fecha\": \"1712\"\n" +
                         "}");
-                editor.commit();
+                            break;
+                        case 3:
+                            editor.putString(mContext.getString(R.string.tarjeta), "{\n" +
+                        "\t\"tarjeta\": \"41111111111111111\",\n" +
+                        "\t\"cvv\": \"231\",\n" +
+                        "\t\"fecha\": \"1712\"\n" +
+                        "}");
+                            break;
 
-                avalaible.release();
-                destroy();
+                        default:
+                            Toast.makeText(mContext,"Se ha producido un error",Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+
+
+
+
+                    editor.commit();
+
+                    avalaible.release();
+                    destroy();
+                }
             }
         });
 
