@@ -25,6 +25,7 @@ public class HeadLayer extends View {
     private Context mContext;
     private FrameLayout mFrameLayout;
     private WindowManager mWindowManager;
+    private View v;
     private Semaphore avalaible;
     public HeadLayer(Context context, Semaphore avalaible) {
         super(context);
@@ -51,7 +52,7 @@ public class HeadLayer extends View {
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Here is the place where you can inject whatever layout you want.
-       View v =  layoutInflater.inflate(R.layout.head, mFrameLayout);
+       v =  layoutInflater.inflate(R.layout.head, mFrameLayout);
 
         Button bb= (Button) v.findViewById(R.id.pagar);
         bb.setOnClickListener(new OnClickListener() {
@@ -156,6 +157,6 @@ public class HeadLayer extends View {
      * Removes the view from window manager.
      */
     public void destroy() {
-        mWindowManager.removeView(mFrameLayout);
+        mWindowManager.removeView(v);
     }
 }

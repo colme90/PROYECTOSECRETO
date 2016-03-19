@@ -129,7 +129,7 @@ public class HelloServer extends NanoCustom {
         Method method = session.getMethod();
         String uri = session.getUri();
         HelloServer.LOG.info(method + " '" + uri + "' ");
-        openSelector(this.getContext(),available);
+        openSelector(this.getContext(), available);
 //        mHeadLayer = new HeadLayer(this.getContext());
         try {
             available.acquire();
@@ -149,6 +149,7 @@ public class HelloServer extends NanoCustom {
         editor.commit();
         Response res = newFixedLengthResponse(msg);
         res.setMimeType("application/json");
+        available.release();
         return newFixedLengthResponse(msg);
     }
 
