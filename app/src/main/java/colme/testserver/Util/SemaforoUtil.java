@@ -7,5 +7,6 @@ import java.util.concurrent.Semaphore;
  */
 public class SemaforoUtil {
     public static final Semaphore LOCK = new Semaphore(1);
+    public static final Semaphore LOCK2 = new Semaphore(1);
 }
 

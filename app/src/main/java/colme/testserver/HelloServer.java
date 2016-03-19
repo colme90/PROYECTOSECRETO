@@ -127,33 +127,41 @@ public class HelloServer extends NanoCustom {
 
     @Override
     public Response serve(IHTTPSession session) {
+
         Method method = session.getMethod();
         String uri = session.getUri();
         String msg = "";
         HelloServer.LOG.info(method + " '" + uri + "' ");
         if (uri.equals("/")) {
+            SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             openFingerprint(this.getContext());
-            openSelector(this.getContext());
-//        mHeadLayer = new HeadLayer(this.getContext());
             try {
                 SemaforoUtil.LOCK.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            if(sharedPref.getBoolean(context.getString(R.string.fingerprint_success),false)) {
+                openSelector(this.getContext());
 
-            SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                try {
+                    SemaforoUtil.LOCK.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            String tarjeta = sharedPref.getString(context.getString(R.string.tarjeta), "");
-            msg = "var JQUERY4U = JQUERY4U || {};\n" +
-                    "\n" +
-                    "JQUERY4U.SETTINGS = \n" + tarjeta;
-            ;
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(context.getString(R.string.tarjeta), "");
-            editor.commit();
-            Response res = newFixedLengthResponse(msg);
-            res.setMimeType("application/json");
-            SemaforoUtil.LOCK.release();
+                String tarjeta = sharedPref.getString(context.getString(R.string.tarjeta), "");
+                msg = "var JQUERY4U = JQUERY4U || {};\n" +
+                        "\n" +
+                        "JQUERY4U.SETTINGS = \n" + tarjeta;
+                ;
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(context.getString(R.string.tarjeta), "");
+                editor.putBoolean(context.getString(R.string.fingerprint_success),false);
+                editor.apply();
+                Response res = newFixedLengthResponse(msg);
+                res.setMimeType("application/json");
+                SemaforoUtil.LOCK.release();
+            }
         }
         return newFixedLengthResponse(msg);
     }
@@ -183,11 +191,7 @@ public class HelloServer extends NanoCustom {
 
 
     public void openSelector(final Context context) {
-        try {
-            SemaforoUtil.LOCK.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(
                 new Runnable() {

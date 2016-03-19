@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import colme.testserver.Util.SemaforoUtil;
 import colme.testserver.fingerprint.FingerprintAuthenticationDialog;
 
 public class AskActivity extends AppCompatActivity {
@@ -20,5 +21,12 @@ public class AskActivity extends AppCompatActivity {
 
         setContentView(v);
         fingerPrint.startListen();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if( SemaforoUtil.LOCK.hasQueuedThreads())
+        SemaforoUtil.LOCK.release();
     }
 }

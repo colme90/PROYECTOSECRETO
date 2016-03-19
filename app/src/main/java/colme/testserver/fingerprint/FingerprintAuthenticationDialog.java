@@ -62,15 +62,15 @@ public class FingerprintAuthenticationDialog extends View
     private FingerprintManager.CryptoObject mCryptoObject;
     private FingerprintUiHelper mFingerprintUiHelper;
 
-    @Inject FingerprintUiHelper.FingerprintUiHelperBuilder mFingerprintUiHelperBuilder;
-    @Inject InputMethodManager mInputMethodManager;
-    @Inject SharedPreferences mSharedPreferences;
+     FingerprintUiHelper.FingerprintUiHelperBuilder mFingerprintUiHelperBuilder;
+     InputMethodManager mInputMethodManager;
+     SharedPreferences mSharedPreferences;
 
 
     public FingerprintAuthenticationDialog(Context context){
         super(context);
         this.context = context;
-
+        mSharedPreferences = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         mFrameLayout = new FrameLayout(context);
         mInputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -93,6 +93,7 @@ public class FingerprintAuthenticationDialog extends View
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SemaforoUtil.LOCK.release();
                 destroy();
             }
         });
@@ -194,6 +195,10 @@ public class FingerprintAuthenticationDialog extends View
             }
         }
         mPassword.setText("");
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.fingerprint_success),
+                true);
+        editor.apply();
         SemaforoUtil.LOCK.release();
         destroy();
     }
@@ -249,8 +254,10 @@ public class FingerprintAuthenticationDialog extends View
 
     @Override
     public void onAuthenticated() {
-        // Callback from FingerprintUiHelper. Let the activity know that authentication was
-        // successful.
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.fingerprint_success),
+               true);
+        editor.apply();
         SemaforoUtil.LOCK.release();
         destroy();
     }
