@@ -128,6 +128,12 @@ public class HelloServer extends NanoCustom {
     @Override
     public Response serve(IHTTPSession session) {
 
+        try {
+            LOG.info("Getting lock2");
+            SemaforoUtil.LOCK2.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Method method = session.getMethod();
         String uri = session.getUri();
         String msg = "";
@@ -136,6 +142,7 @@ public class HelloServer extends NanoCustom {
             SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             openFingerprint(this.getContext());
             try {
+                LOG.info("Getting lock");
                 SemaforoUtil.LOCK.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -144,6 +151,7 @@ public class HelloServer extends NanoCustom {
                 openSelector(this.getContext());
 
                 try {
+                    LOG.info("Getting lock");
                     SemaforoUtil.LOCK.acquire();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -161,6 +169,10 @@ public class HelloServer extends NanoCustom {
                 Response res = newFixedLengthResponse(msg);
                 res.setMimeType("application/json");
                 SemaforoUtil.LOCK.release();
+                LOG.info("Release lock");
+                LOG.info("Release lock2");
+                SemaforoUtil.LOCK2.release();
+                return res;
             }
         }
         return newFixedLengthResponse(msg);
@@ -168,7 +180,6 @@ public class HelloServer extends NanoCustom {
 
     @TargetApi(Build.VERSION_CODES.M)
     public void openFingerprint(final Context context) {
-            LOG.info("empezando autenticación");
             try {
                 SemaforoUtil.LOCK.acquire();
             } catch (InterruptedException e) {
@@ -191,7 +202,12 @@ public class HelloServer extends NanoCustom {
 
 
     public void openSelector(final Context context) {
-
+        LOG.info("Getting lock");
+        try {
+            SemaforoUtil.LOCK.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(
                 new Runnable() {

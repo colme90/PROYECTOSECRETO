@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.logging.Logger;
+
 import colme.testserver.R;
 import colme.testserver.Util.SemaforoUtil;
 
@@ -24,7 +26,7 @@ import colme.testserver.Util.SemaforoUtil;
  * until another application does the same.
  */
 public class HeadLayer extends View {
-
+    private static final Logger LOG = Logger.getLogger(HeadLayer.class.getName());
     private Context mContext;
     private FrameLayout mFrameLayout;
     private WindowManager mWindowManager;
@@ -138,7 +140,7 @@ public class HeadLayer extends View {
                     }
 
                     editor.commit();
-
+                    LOG.info("Release lock");
                     SemaforoUtil.LOCK.release();
                     destroy();
                 }

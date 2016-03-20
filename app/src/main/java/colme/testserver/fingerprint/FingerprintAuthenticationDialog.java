@@ -34,6 +34,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 
 import colme.testserver.R;
@@ -47,7 +49,7 @@ public class FingerprintAuthenticationDialog extends View
         implements TextView.OnEditorActionListener, FingerprintUiHelper.Callback {
     private WindowManager mWindowManager;
     private Context context;
-
+    private static final Logger LOG = Logger.getLogger(FingerprintAuthenticationDialog.class.getName());
     private Button mCancelButton;
     private Button mSecondDialogButton;
     private View mFingerprintContent;
@@ -93,6 +95,7 @@ public class FingerprintAuthenticationDialog extends View
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LOG.info("Release lock");
                 SemaforoUtil.LOCK.release();
                 destroy();
             }
@@ -199,6 +202,7 @@ public class FingerprintAuthenticationDialog extends View
         editor.putBoolean(context.getString(R.string.fingerprint_success),
                 true);
         editor.apply();
+        LOG.info("Release lock");
         SemaforoUtil.LOCK.release();
         destroy();
     }
@@ -258,6 +262,7 @@ public class FingerprintAuthenticationDialog extends View
         editor.putBoolean(context.getString(R.string.fingerprint_success),
                true);
         editor.apply();
+        LOG.info("Release lock");
         SemaforoUtil.LOCK.release();
         destroy();
     }

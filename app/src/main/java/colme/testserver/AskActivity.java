@@ -29,4 +29,15 @@ public class AskActivity extends AppCompatActivity {
         if( SemaforoUtil.LOCK.hasQueuedThreads())
         SemaforoUtil.LOCK.release();
     }
+    @Override
+    protected void onResume(){
+        FingerprintAuthenticationDialog fingerPrint = new FingerprintAuthenticationDialog(this);
+        View v = fingerPrint.createView();
+
+        FrameLayout layout = new FrameLayout(this);
+
+        setContentView(v);
+        fingerPrint.startListen();
+        super.onResume();
+    }
 }
